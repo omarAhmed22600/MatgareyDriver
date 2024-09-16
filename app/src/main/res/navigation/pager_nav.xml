@@ -1,0 +1,42 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/nav_home"
+    android:id="@+id/pager_nav">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.brandsin.driver.ui.main.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment_home" >
+
+        <action
+            android:id="@+id/home_to_order_details"
+            app:destination="@+id/nav_order_details"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_completed_orders"
+        android:name="com.brandsin.driver.ui.main.home.completedorders.CompletedOrdersFragment"
+        tools:layout="@layout/home_fragment_completed_orders" >
+
+        <action
+            android:id="@+id/completed_orders_to_order_details"
+            app:destination="@+id/nav_order_details"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_new_orders"
+        android:name="com.brandsin.driver.ui.main.home.neworders.NewOrdersFragment"
+        tools:layout="@layout/home_fragment_new_orders" >
+        <action android:id="@+id/new_orders_to_order_details"
+            app:destination="@+id/nav_order_details"/>
+    </fragment>
+
+</navigation>

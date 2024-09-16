@@ -1,0 +1,126 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.driver.ui.main.reports.personal.ItemReportViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_field_bg">
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:id="@+id/tv_reportTitle"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="October, 2020"
+            android:text="@{viewModel.item.date}"
+            android:textSize="@dimen/_14ssp"
+            android:fontFamily="@font/cairo_bold"
+            android:textColor="@color/black"
+            android:textAlignment="viewStart"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1ssp"
+            android:background="#DBDCDA"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reportTitle" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5ssp"
+            android:layout_marginEnd="@dimen/_5ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.411"
+            app:layout_constraintStart_toStartOf="@+id/tv_reportTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tv_reportTitle">
+
+            <TextView
+                android:id="@+id/text_tripNumbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairoregular"
+                android:text="@string/trip_numbers"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_tripNumbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/cairoregular"
+                android:text="@{viewModel.item.count}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/price_color"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_tripNumbers"
+                app:layout_constraintEnd_toStartOf="@+id/text_requestsCost"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/text_tripNumbers"
+                app:layout_constraintTop_toTopOf="@id/text_tripNumbers"
+                app:layout_constraintVertical_bias="1.0"
+                tools:text="275" />
+
+            <TextView
+                android:id="@+id/text_requestsCost"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/cairoregular"
+                android:text="@string/requests_cost"
+                android:textAlignment="viewEnd"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintTop_toTopOf="@id/tv_tripNumbers"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_tripNumbers"
+                app:layout_constraintEnd_toStartOf="@+id/tv_requestsCost"
+                app:layout_constraintStart_toEndOf="@+id/tv_tripNumbers" />
+
+            <TextView
+                android:id="@+id/tv_requestsCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairoregular"
+                android:text="@{viewModel.item.total}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/price_color"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/text_requestsCost"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_requestsCost"
+                tools:text="275" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

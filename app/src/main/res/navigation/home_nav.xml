@@ -1,0 +1,167 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.brandsin.driver.ui.main.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/home_fragment_home" >
+
+        <action android:id="@+id/home_to_profile"
+            app:destination="@+id/nav_profile"/>
+
+        <action android:id="@+id/home_to_order_details"
+            app:destination="@+id/nav_order_details"/>
+
+        <action android:id="@+id/home_to_notifications"
+            app:destination="@+id/nav_notifications"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_completed_orders"
+        android:name="com.brandsin.driver.ui.main.home.completedorders.CompletedOrdersFragment"
+        tools:layout="@layout/home_fragment_completed_orders" >
+
+        <action android:id="@+id/completed_orders_to_order_details"
+            app:destination="@+id/nav_order_details"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_new_orders"
+        android:name="com.brandsin.driver.ui.main.home.neworders.NewOrdersFragment"
+        tools:layout="@layout/home_fragment_new_orders" >
+        <action android:id="@+id/new_orders_to_order_details"
+            app:destination="@+id/nav_order_details"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_order_details"
+        android:name="com.brandsin.driver.ui.main.orderdetails.OrderDetailsFragment"
+        tools:layout="@layout/home_fragment_order_details" >
+
+        <argument
+            android:name="order_id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_reports"
+        android:name="com.brandsin.driver.ui.main.reports.ReportsFragment"
+        tools:layout="@layout/home_fragment_reports" />
+
+
+    <!--  NAVIGATION NOTIFICATIONS -->
+    <fragment
+        android:id="@+id/nav_notifications"
+        android:name="com.brandsin.driver.ui.main.notifications.NotificationFragment"
+        android:label="@string/notifications"
+        tools:layout="@layout/home_fragment_notifications" >
+        <action android:id="@+id/notification_to_order_details"
+        app:destination="@id/nav_order_details"/>
+    </fragment>
+
+
+    <!--  NAVIGATION HELP -->
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="com.brandsin.driver.ui.main.help.helpques.HelpFragment"
+        android:label="@string/help"
+        tools:layout="@layout/menu_fragment_help" >
+
+        <action
+            android:id="@+id/help_to_answers"
+            app:destination="@+id/nav_help_answer"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_help_answer"
+        android:name="com.brandsin.driver.ui.main.help.helpanswer.HelpAnswerFragment"
+        tools:layout="@layout/menu_fragment_help_answer" >
+
+        <argument
+            android:name="phone_number"
+            app:argType="string" />
+        <argument
+            android:name="help_ques"
+            app:argType="com.brandsin.driver.model.menu.help.HelpQuesItem" />
+
+
+    </fragment>
+
+    <!-- NAVIGATION ABOUT -->
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.brandsin.driver.ui.main.about.AboutFragment"
+        android:label="@string/about"
+        tools:layout="@layout/menu_fragment_about" >
+
+        <action android:id="@+id/about_to_common_questions"
+            app:destination="@+id/nav_common_questions"/>
+
+        <action android:id="@+id/about_to_rate_app"
+            app:destination="@+id/nav_rate_app"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_common_questions"
+        android:name="com.brandsin.driver.ui.main.coomonquestions.CommonQuestionFragment"
+        tools:layout="@layout/menu_fragment_about_ques" />
+
+    <fragment
+        android:id="@+id/nav_rate_app"
+        android:name="com.brandsin.driver.ui.main.rateapp.RateAppFragment"
+        tools:layout="@layout/menu_fragment_rate_app" />
+
+    <!-- NAVIGATION CONTACT US  -->
+    <fragment
+        android:id="@+id/nav_contact"
+        android:name="com.brandsin.driver.ui.main.contact.ContactFragment"
+        android:label="@string/contact"
+        tools:layout="@layout/menu_fragment_contact" />
+
+    <!-- /////////////////////////////////////////////  -->
+    <!-- NAVIGATION PROFILE  -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.brandsin.driver.ui.profile.ProfileFragment"
+        tools:layout="@layout/profile_fragment" >
+
+        <action android:id="@+id/profile_to_update"
+            app:destination="@id/nav_update_profile"/>
+
+        <action android:id="@+id/profile_to_vehicle"
+            app:destination="@+id/nav_vehicle"/>
+
+        <action android:id="@+id/profile_to_change_pass"
+            app:destination="@+id/nav_change_pass"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_change_pass"
+        android:name="com.brandsin.driver.ui.profile.changepass.ChangePassFragment"
+        tools:layout="@layout/profile_fragment_change_pass" />
+
+    <fragment
+        android:id="@+id/nav_update_profile"
+        android:name="com.brandsin.driver.ui.profile.update.UpdateProfileFragment"
+        tools:layout="@layout/profile_fragment_update_profile" />
+
+
+    <fragment
+        android:id="@+id/nav_vehicle"
+        android:name="com.brandsin.driver.ui.profile.vehicle.VehicleInfoFragment"
+        tools:layout="@layout/profile_fragment_vehicle_info" />
+
+</navigation>
