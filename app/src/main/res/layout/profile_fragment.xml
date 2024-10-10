@@ -178,9 +178,53 @@
                     android:background="#C9C9C9"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/work_status_layout"
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     android:layout_marginTop="@dimen/_16sdp"
+                    android:background="?selectableItemBackground"
+                    android:paddingStart="@dimen/_24sdp"
+                    android:paddingEnd="@dimen/_24sdp">
+
+                    <ImageView
+                        android:id="@+id/iv_work_status"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/action_activation"
+                        android:tint="@color/color_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@string/action_activation"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_work_status"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/ib_switch_work_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        android:src="@drawable/action_activation"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+
                     android:id="@+id/notification_layout"
                     android:background="?selectableItemBackground"
                     android:paddingStart="@dimen/_24sdp"

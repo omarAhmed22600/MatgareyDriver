@@ -22,55 +22,58 @@
             android:layout_height="match_parent">
 
             <!-- Order Details Layout -->
+
             <androidx.constraintlayout.widget.ConstraintLayout
+                isFull="@{viewModel.obsIsFull}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="@dimen/_16sdp"
-                isFull="@{viewModel.obsIsFull}"
                 android:paddingStart="@dimen/_16sdp"
-                android:paddingEnd="@dimen/_16sdp">
+                android:paddingEnd="@dimen/_16sdp"
+                android:paddingBottom="@dimen/_16sdp"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="-18dp">
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/order_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="@dimen/_8sdp"
-                    app:strokeWidth="@dimen/_1sdp"
                     android:layout_marginTop="@dimen/_16sdp"
-                    android:elevation="0dp"
-                    android:id="@+id/order_layout"
-                    app:cardElevation="0dp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:clickable="true"
+                    android:elevation="0dp"
                     android:focusable="true"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:cardElevation="0dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:strokeColor="@color/grey_subcategory"
-                    android:layout_marginBottom="@dimen/_8sdp">
+                    app:strokeWidth="@dimen/_1sdp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:paddingBottom="@dimen/_12sdp"
+                        android:layout_height="match_parent"
                         android:paddingTop="@dimen/_12sdp"
-                        android:layout_height="match_parent">
+                        android:paddingBottom="@dimen/_12sdp">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/img_layout"
                             android:layout_width="@dimen/_50sdp"
                             android:layout_height="@dimen/_50sdp"
-                            app:cardCornerRadius="@dimen/_8sdp"
+                            android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
-                            android:id="@+id/img_layout"
                             android:layout_marginStart="@dimen/_16sdp"
+                            app:cardCornerRadius="@dimen/_8sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            android:layout_alignParentStart="true">
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
                                 android:id="@+id/iv_notifyImg"
+                                setImage="@{viewModel.orderDetails.order.user.picture}"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:gravity="top|center"
                                 android:layout_margin="@dimen/_4sdp"
+                                android:gravity="top|center"
                                 android:src="@drawable/new_icon"
-                                setImage="@{viewModel.orderDetails.order.user.picture}"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_6ssp"
                                 android:textStyle="bold"
@@ -83,13 +86,13 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_16sdp"
-                            app:layout_constraintEnd_toEndOf="parent"
                             android:layout_marginEnd="@dimen/_8sdp"
                             android:fontFamily="@font/cairo_semibold"
                             android:text="@{viewModel.obsUserName}"
                             android:textAlignment="viewStart"
                             android:textColor="@color/black"
                             android:textSize="@dimen/_12ssp"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/img_layout"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="معاذ صلاح" />
@@ -121,21 +124,21 @@
                             app:layout_constraintTop_toBottomOf="@+id/tv_desc"
                             tools:text="22/12/2020  10:50" />
 
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginStart="@dimen/_16sdp"-->
-<!--                            android:fontFamily="@font/cairo_semibold"-->
-<!--                            android:textAlignment="viewStart"-->
-<!--                            android:textSize="@dimen/_12ssp"-->
-<!--                            android:textColor="#00C7BD"-->
-<!--                            android:duplicateParentState="false"-->
-<!--                            android:onClick="@{() -> viewModel.onCallTextClicked()}"-->
-<!--                            android:id="@+id/tv_call"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                            android:layout_marginEnd="@dimen/_8sdp"-->
-<!--                            android:text="@string/call" />-->
+                        <!--                        <TextView-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginStart="@dimen/_16sdp"-->
+                        <!--                            android:fontFamily="@font/cairo_semibold"-->
+                        <!--                            android:textAlignment="viewStart"-->
+                        <!--                            android:textSize="@dimen/_12ssp"-->
+                        <!--                            android:textColor="#00C7BD"-->
+                        <!--                            android:duplicateParentState="false"-->
+                        <!--                            android:onClick="@{() -> viewModel.onCallTextClicked()}"-->
+                        <!--                            android:id="@+id/tv_call"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+                        <!--                            android:layout_marginEnd="@dimen/_8sdp"-->
+                        <!--                            android:text="@string/call" />-->
 
                         <ImageView
                             android:id="@+id/iv_call"
@@ -156,38 +159,57 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
+                    android:id="@+id/text_storeAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_storeAddress"
                     android:layout_marginTop="@dimen/_16sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/order_layout"
-                    android:textAlignment="viewStart"
                     android:fontFamily="@font/cairo_semibold"
                     android:text="@string/store_address"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/order_layout" />
 
                 <ImageView
                     android:id="@+id/iv_call_store"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:background="@drawable/call_shap2"
                     android:duplicateParentState="false"
                     android:onClick="@{() -> viewModel.onCallStoreImgClicked()}"
                     android:padding="@dimen/_5ssp"
                     android:src="@drawable/call"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/order_layout"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_call_user"
+                    app:layout_constraintStart_toEndOf="@+id/iv_whatsapp_store"
+                    app:layout_constraintTop_toTopOf="@+id/tv_storeAddress"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/iv_whatsapp_store"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:duplicateParentState="false"
+                    android:onClick="@{v -> viewModel.onWhatsAppStoreClicked(v)}"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_whatsapp_round"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_call_store"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toEndOf="@+id/storeMap_layout"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tv_storeAddress"
+                    app:layout_constraintTop_toTopOf="@+id/iv_call_store"
+                    app:layout_goneMarginEnd="@dimen/_2sdp"
                     tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/tv_storeAddress"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/cairo_semibold"
                     android:lineSpacingExtra="-8dp"
                     android:text="@{viewModel.orderDetails.order.store.address}"
@@ -195,19 +217,19 @@
                     android:textColor="@color/hint_color"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintStart_toStartOf="@id/text_storeAddress"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_call_store" />
+                    app:layout_constraintTop_toBottomOf="@+id/storeMap_layout"
+                    app:layout_constraintWidth_percent="0.65" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/storeMap_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:background="@drawable/about_bg"
-                    android:layout_marginTop="@dimen/_4sdp"
                     android:backgroundTint="@color/grey_subcategory"
                     app:cardCornerRadius="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
                     app:layout_constraintStart_toStartOf="@+id/tv_storeAddress"
-                    app:layout_constraintTop_toBottomOf="@id/tv_storeAddress">
+                    app:layout_constraintTop_toBottomOf="@+id/text_storeAddress">
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/map_view_store"
@@ -218,58 +240,75 @@
                 </androidx.cardview.widget.CardView>
 
                 <TextView
+                    android:id="@+id/text_storeLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_storeLocation"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeMap_layout"
-                    android:textAlignment="viewStart"
                     android:fontFamily="@font/cairo_semibold"
                     android:text="@string/order_address"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp" />
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="@+id/text_storeAddress"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_storeAddress" />
 
                 <ImageView
                     android:id="@+id/iv_call_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:background="@drawable/call_shap2"
                     android:duplicateParentState="false"
                     android:onClick="@{() -> viewModel.onCallImgClicked()}"
                     android:padding="@dimen/_5ssp"
                     android:src="@drawable/call"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/storeMap_layout"
+                    app:layout_constraintEnd_toEndOf="@+id/orderMap_layout"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/iv_whatsapp_user"
+                    app:layout_constraintTop_toTopOf="@+id/tv_storeLocation"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/iv_whatsapp_user"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:duplicateParentState="false"
+                    android:onClick="@{v -> viewModel.onWhatsAppUserClicked(v)}"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_whatsapp_round"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_call_user"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toEndOf="@+id/tv_storeLocation"
+                    app:layout_constraintTop_toTopOf="@+id/iv_call_user"
+                    app:layout_goneMarginEnd="@dimen/_2sdp"
                     tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/tv_storeLocation"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/cairo_semibold"
                     android:lineSpacingExtra="-8dp"
                     android:text="@{viewModel.orderDetails.order.streetName}"
+
                     android:textAlignment="viewStart"
                     android:textColor="@color/hint_color"
                     android:textSize="@dimen/_10ssp"
-                    app:layout_constraintStart_toStartOf="@id/text_storeLocation"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_call_user" />
+                    app:layout_constraintStart_toStartOf="@+id/storeMap_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/orderMap_layout"
+                    app:layout_constraintWidth_percent="0.65" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/orderMap_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:background="@drawable/about_bg"
-                    android:layout_marginTop="@dimen/_4sdp"
                     android:backgroundTint="@color/grey_subcategory"
                     app:cardCornerRadius="@dimen/_8sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
                     app:layout_constraintStart_toStartOf="@+id/tv_storeLocation"
-                    app:layout_constraintTop_toBottomOf="@id/tv_storeLocation">
+                    app:layout_constraintTop_toBottomOf="@+id/text_storeLocation">
 
                     <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/map_view"
@@ -280,29 +319,29 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/orderDetails_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/orderMap_layout"
-                    android:id="@+id/orderDetails_layout">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_storeLocation">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/about_bg"
                         android:layout_marginTop="@dimen/_16sdp"
+                        android:background="@drawable/about_bg"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/orderContents_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/orderContents_layout"
                             android:background="@drawable/order_conents_border"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent">
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rv_contents"
@@ -323,16 +362,16 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/orderCosts_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/_16sdp"
-                            android:id="@+id/orderCosts_layout"
                             android:paddingStart="@dimen/_16sdp"
-                            android:paddingEnd="@dimen/_16sdp"
                             android:paddingTop="@dimen/_8sdp"
-                            app:layout_constraintTop_toBottomOf="@+id/orderContents_layout"
+                            android:paddingEnd="@dimen/_16sdp"
+                            android:paddingBottom="@dimen/_16sdp"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent">
+                            app:layout_constraintTop_toBottomOf="@+id/orderContents_layout">
 
                             <TextView
                                 android:id="@+id/productTotal"
@@ -360,9 +399,6 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
 
-
-
-
                             <TextView
                                 android:id="@+id/text_tax"
                                 android:layout_width="wrap_content"
@@ -377,17 +413,17 @@
 
 
                             <TextView
+                                android:id="@+id/tv_taxes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/productTotalPrice"
                                 android:layout_marginTop="@dimen/_4sdp"
-                                android:id="@+id/tv_taxes"
-                                android:text="@{0 + @string/currency}"
-                                android:textSize="@dimen/_12ssp"
                                 android:fontFamily="@font/cairo_semibold"
+                                android:text="@{0 + @string/currency}"
+                                android:textAlignment="viewStart"
                                 android:textColor="#4DA6FF"
-                                android:textAlignment="viewStart" />
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/productTotalPrice" />
 
 
                             <TextView
@@ -415,17 +451,17 @@
                                 app:layout_constraintTop_toBottomOf="@+id/tv_taxes" />
 
                             <TextView
+                                android:id="@+id/text_total"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/text_delivery_price"
                                 android:layout_marginTop="@dimen/_4sdp"
-                                android:text="@string/total"
-                                android:id="@+id/text_total"
-                                android:textSize="@dimen/_12ssp"
                                 android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/total"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/black"
-                                android:textAlignment="viewStart" />
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/text_delivery_price" />
 
                             <TextView
                                 android:id="@+id/adds"
@@ -442,17 +478,17 @@
                                 app:layout_constraintTop_toBottomOf="@+id/text_adds" />
 
                             <TextView
+                                android:id="@+id/text_payment"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/text_total"
                                 android:layout_marginTop="@dimen/_4sdp"
-                                android:text="@string/payment_way"
-                                android:id="@+id/text_payment"
-                                android:textSize="@dimen/_12ssp"
                                 android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/payment_way"
+                                android:textAlignment="viewStart"
                                 android:textColor="@color/black"
-                                android:textAlignment="viewStart" />
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/text_total" />
 
                             <TextView
                                 android:id="@+id/text_adds"
@@ -468,17 +504,17 @@
                                 app:layout_constraintTop_toBottomOf="@+id/text_payment" />
 
                             <TextView
+                                android:id="@+id/tv_totalPrice"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/tv_delivery_price"
                                 android:layout_marginTop="@dimen/_4sdp"
-                                android:id="@+id/tv_totalPrice"
-                                android:text="@{viewModel.obsTotal + ` ` + @string/currency}"
-                                android:textSize="@dimen/_12ssp"
                                 android:fontFamily="@font/cairo_semibold"
+                                android:text="@{viewModel.obsTotal + ` ` + @string/currency}"
+                                android:textAlignment="viewStart"
                                 android:textColor="#4DA6FF"
-                                android:textAlignment="viewStart" />
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tv_delivery_price" />
 
                             <TextView
                                 android:id="@+id/textView2"
@@ -499,38 +535,36 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:background="@color/white"
                         android:paddingStart="@dimen/_8sdp"
                         android:paddingEnd="@dimen/_8sdp"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:background="@color/white"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_marginStart="@dimen/_16sdp">
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:fontFamily="@font/cairo_bold"
-                            android:textColor="@color/black"
-                            android:text="@string/orders"
-                            android:textSize="@dimen/_12ssp"
                             android:id="@+id/text_orders"
-                            />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/cairo_bold"
+                            android:text="@string/orders"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintStart_toEndOf="@+id/text_orders"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             android:layout_marginStart="@dimen/_5sdp"
-                            android:textSize="@dimen/_11ssp"
                             android:fontFamily="@font/cairoregular"
                             android:text="@string/review_orders_first"
-                            android:textColor="@color/hint_color" />
+                            android:textColor="@color/hint_color"
+                            android:textSize="@dimen/_11ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/text_orders"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -541,28 +575,29 @@
                     android:layout_height="@dimen/_50sdp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:gravity="center_vertical"
-                    app:layout_constraintTop_toBottomOf="@id/orderDetails_layout"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:orientation="horizontal">
+                    app:layout_constraintTop_toBottomOf="@id/orderDetails_layout">
 
                     <com.google.android.material.button.MaterialButton
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
-                        android:layout_height="@dimen/_40sdp"
                         android:id="@+id/btn_accept"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_weight="3"
+                        android:clickable="@{viewModel.obsIsClickable}"
+                        android:fontFamily="@font/cairo_semibold"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
-                        android:clickable="@{viewModel.obsIsClickable}"
                         android:onClick="@{() -> viewModel.onPrepareClicked()}"
-                        android:textAllCaps="false"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:textColor="@color/white"
                         android:text="@string/accept_delivery"
-                        style="@style/Widget.MaterialComponents.Button"
-                        app:cornerRadius="@dimen/_5sdp"
-                        android:fontFamily="@font/cairo_semibold"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_12ssp"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        app:cornerRadius="@dimen/_5sdp"
+                        tools:visibility="visible" />
 
                 </LinearLayout>
 

@@ -36,9 +36,9 @@ class ApiRepo(private val apiInterface: ApiInterface) {
 
     suspend fun readNotification(request : ReadNotificationRequest) = apiInterface.readNotification(request)
 
-    suspend fun getCommonQues(type : String, lang : String) = apiInterface.getCommonQues(type, lang)
+    suspend fun getCommonQues(type : String, lang : String) = apiInterface.getCommonQues(type, lang, "driver")
 
-    suspend fun getHelpQues(type : String, lang : String) = apiInterface.getHelpQues(type, lang)
+    suspend fun getHelpQues(type : String, lang : String) = apiInterface.getHelpQues(type, lang, "driver")
 
     suspend fun getPhoneNumber(type : String, lang : String) = apiInterface.getPhoneNumber(type, lang)
 

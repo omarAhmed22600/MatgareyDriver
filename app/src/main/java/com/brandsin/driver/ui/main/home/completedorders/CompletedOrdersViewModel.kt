@@ -6,11 +6,12 @@ import com.brandsin.driver.database.BaseRepository
 import com.brandsin.driver.database.BaseViewModel
 import com.brandsin.driver.utils.PrefMethods
 import com.brandsin.driver.model.constants.Codes
-import com.brandsin.driver.model.main.homepage.OrdersItem
-import com.brandsin.driver.model.main.homepage.OrdersResponse
+
 import com.brandsin.driver.model.profile.UpdateLocatoin.UpdateLocatoinRequest
 import com.brandsin.driver.model.profile.UpdateLocatoin.UpdateLocatoinResponse
 import com.brandsin.driver.network.requestCall
+import com.brandsin.driver.ui.main.home.Order
+import com.brandsin.driver.ui.main.home.OrderResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
@@ -53,9 +54,13 @@ class CompletedOrdersViewModel : BaseViewModel()
         obsIsEmpty.set(false)
         obsIsFull.set(false)
         obsIsLoading.set(true)
-        requestCall<OrdersResponse?>({
+        requestCall<OrderResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getStoreOrders(PrefMethods.getLanguage() ,  PrefMethods.getUserData()!!.driver!!.id!!.toInt() , "completed" )
+                return@withContext getApiRepo().getStoreOrders(
+                    PrefMethods.getLanguage(),
+                    PrefMethods.getUserData()!!.driver!!.id!!.toInt(),
+                    "completed"
+                )
             }
         })
         { res ->
@@ -76,7 +81,7 @@ class CompletedOrdersViewModel : BaseViewModel()
                                         Timber.e("Mou3az : full")
                                         obsIsFull.set(true)
                                         obsIsEmpty.set(false)
-                                        completedOrdersAdapter.updateList(it.orders as ArrayList<OrdersItem>)
+                                        completedOrdersAdapter.updateList(it.orders as ArrayList<Order>)
                                     }
                                 }
                             }

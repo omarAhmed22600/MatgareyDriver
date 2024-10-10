@@ -36,7 +36,7 @@
                         android:layout_width="@dimen/_110sdp"
                         android:layout_height="@dimen/_42sdp"
                         android:layout_marginTop="@dimen/_36sdp"
-                        android:src="@drawable/app_logo1"
+                        android:src="@drawable/app_logo"
                         android:background="@drawable/radius_background"
                         android:backgroundTint="@color/grey_subcategory"
                         app:layout_constraintEnd_toEndOf="parent"

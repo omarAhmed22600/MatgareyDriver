@@ -37,7 +37,7 @@
             android:layout_width="@dimen/_70sdp"
             android:layout_height="70dp"
             android:scaleType="fitXY"
-            android:src="@drawable/logo3"
+            android:src="@drawable/app_logo"
             setImage="@{viewModel.item.image}"
             android:layout_marginTop="@dimen/_5ssp"
             app:layout_constraintEnd_toEndOf="parent"

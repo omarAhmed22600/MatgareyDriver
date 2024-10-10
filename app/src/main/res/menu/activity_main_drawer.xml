@@ -10,40 +10,31 @@
     <group android:checkableBehavior="single">
 
         <item
+            android:id="@+id/nav_reports"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/ic_reports"
+            android:iconTint="@color/color_primary"
+            android:title="@string/reports" />
+        <item
             android:id="@+id/nav_help"
             android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/help_img"
             android:iconTint="@color/color_primary"
             android:title="@string/help" />
-
         <item
             android:id="@+id/nav_about"
+            android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/about_icon"
             android:iconTint="@color/color_primary"
-            android:fontFamily="@font/cairo_semibold"
             android:title="@string/about" />
-
-        <item
-            android:id="@+id/nav_reports"
-            android:icon="@drawable/ic_reports"
-            android:iconTint="@color/color_primary"
-            android:fontFamily="@font/cairo_semibold"
-            android:title="@string/reports" />
-
-        <item
-            android:id="@+id/nav_action_activation"
-            android:icon="@drawable/action_activation"
-            android:iconTint="@color/color_primary"
-            android:fontFamily="@font/cairo_semibold"
-            android:title="@string/action_activation"
-            app:actionLayout="@layout/menu_switch_action_activation"/>
-
         <item
             android:id="@+id/nav_contact"
+            android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/contact_img"
             android:iconTint="@color/color_primary"
-            android:fontFamily="@font/cairo_semibold"
             android:title="@string/contact" />
+
+
     </group>
 
 </menu>

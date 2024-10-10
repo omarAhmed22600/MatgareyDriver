@@ -10,9 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.brandsin.driver.R
 import com.brandsin.driver.databinding.ProfileFragmentVehicleInfoBinding
 import com.brandsin.driver.model.constants.Codes
+import com.brandsin.driver.model.constants.Params
 import com.brandsin.driver.ui.activity.BaseHomeFragment
 import com.brandsin.driver.utils.PrefMethods
+import com.brandsin.driver.utils.bindImage
 import com.bumptech.glide.Glide
+import org.koin.android.ext.android.bind
+import timber.log.Timber
 
 class VehicleInfoFragment : BaseHomeFragment(), Observer<Any?>
 {
@@ -38,8 +42,9 @@ class VehicleInfoFragment : BaseHomeFragment(), Observer<Any?>
         if (PrefMethods.getUserData() != null) {
             binding.vehicleType.text = PrefMethods.getUserData()!!.driver!!.vehicleType.toString()
             binding.vehicleNumber.text = PrefMethods.getUserData()!!.driver!!.vehicleNumber.toString()
-
-            Glide.with(view.context).load(PrefMethods.getUserData()!!.driver!!.drivingLicence.toString()).error(R.drawable.logo3).into(view.findViewById(R.id.licence_number))
+            Timber.e("image is ${PrefMethods.getUserData()!!.driver!!.drivingLicence}")
+            binding.licenceNumber.bindImage("${Params.BASE_URL}${PrefMethods.getUserData()!!.driver!!.drivingLicence.toString()}")
+//            Glide.with(view.context).load(PrefMethods.getUserData()!!.driver!!.drivingLicence.toString()).error(R.drawable.logo3).into(view.findViewById(R.id.licence_number))
 
         }
     }

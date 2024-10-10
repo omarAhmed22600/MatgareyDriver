@@ -45,11 +45,11 @@
 <!--                    android:layout_marginTop="16dp"-->
 <!--                    android:contentDescription="@string/nav_header_desc"-->
 <!--                    android:paddingTop="@dimen/nav_header_vertical_spacing"-->
-<!--                    android:src="@drawable/logo3"-->
+<!--                    android:src="@drawable/app_logo"-->
 <!--                    app:layout_constraintEnd_toEndOf="parent"-->
 <!--                    app:layout_constraintStart_toStartOf="parent"-->
 <!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:srcCompat="@mipmap/ic_launcher_round" />-->
+<!--                    app:srcCompat="@drawable/app_logo_round" />-->
 
 <!--                <TextView-->
 <!--                    android:id="@+id/tv_userName"-->
@@ -111,8 +111,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_userImg"
-                    userImg="@{viewModel.obsIsLogin}"
                     android:layout_width="@dimen/_60sdp"
+                    app:imageUrl="@{viewModel.userImg}"
                     android:layout_height="@dimen/_60sdp"
                     android:layout_marginTop="@dimen/_24sdp"
                     android:contentDescription="@string/nav_header_desc"

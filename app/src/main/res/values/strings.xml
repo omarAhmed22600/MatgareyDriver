@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BrandsIn Driver</string>
+    <string name="app_name">BrandsIn Delivery</string>
     <string name="google_maps_key">AIzaSyDWTbmhcokQYyU4PKjBLnzAZlac4hphs_I</string>
 
     <string name="permit_my_location"> Allow My device to access location</string>

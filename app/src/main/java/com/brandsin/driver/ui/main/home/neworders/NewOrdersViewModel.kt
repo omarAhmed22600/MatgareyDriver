@@ -6,16 +6,18 @@ import com.brandsin.driver.database.BaseRepository
 import com.brandsin.driver.database.BaseViewModel
 import com.brandsin.driver.utils.PrefMethods
 import com.brandsin.driver.model.constants.Codes
-import com.brandsin.driver.model.main.homepage.OrdersItem
-import com.brandsin.driver.model.main.homepage.OrdersResponse
+
 import com.brandsin.driver.model.profile.UpdateLocatoin.UpdateLocatoinRequest
 import com.brandsin.driver.model.profile.UpdateLocatoin.UpdateLocatoinResponse
 import com.brandsin.driver.network.requestCall
+import com.brandsin.driver.ui.main.home.Order
+import com.brandsin.driver.ui.main.home.OrderResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 import java.util.*
 
 class NewOrdersViewModel : BaseViewModel()
@@ -54,14 +56,17 @@ class NewOrdersViewModel : BaseViewModel()
         obsIsEmpty.set(false)
         obsIsFull.set(false)
         obsIsLoading.set(true)
-
-
-        requestCall<OrdersResponse?>({
+        requestCall<OrderResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getStoreOrders(PrefMethods.getLanguage() ,   PrefMethods.getUserData()!!.driver!!.id!!.toInt() , "new" )
+                return@withContext getApiRepo().getStoreOrders(
+                    PrefMethods.getLanguage(),
+                    PrefMethods.getUserData()!!.driver!!.id!!.toInt(),
+                    "new"
+                )
             }
         })
         { res ->
+            Timber.e("back with result $res")
             obsIsLoading.set(false)
             when (res!!.success) {
                 true -> {
@@ -76,7 +81,7 @@ class NewOrdersViewModel : BaseViewModel()
                                     else -> {
                                         obsIsFull.set(true)
                                         obsIsEmpty.set(false)
-                                        newOrdersAdapter.updateList(it.orders as ArrayList<OrdersItem>)
+                                        newOrdersAdapter.updateList(it.orders as ArrayList<Order>)
                                     }
                                 }
                             }

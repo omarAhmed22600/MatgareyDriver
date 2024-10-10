@@ -2,6 +2,7 @@ package com.brandsin.driver.ui.activity.home
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.brandsin.driver.R
 import com.brandsin.driver.database.BaseRepository
 import com.brandsin.driver.database.BaseViewModel
@@ -13,6 +14,7 @@ import com.brandsin.driver.model.menu.active.ActiveResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 class MainViewModel : BaseViewModel()
 {
@@ -21,6 +23,7 @@ class MainViewModel : BaseViewModel()
     val obsUserName = ObservableField<String>()
     val obsBtnLogout = ObservableField<String>()
     private val obsLanguage = ObservableField<String>()
+    val userImg = MutableLiveData("")
 
     var activeRequest = ActiveRequest()
 
@@ -29,7 +32,7 @@ class MainViewModel : BaseViewModel()
         obsIsLogin.set(true)
         obsUserName.set(MyApp.context.getString(R.string.name))
         obsBtnLogout.set(MyApp.context.getString(R.string.information_account))
-
+        Timber.e("image is ${PrefMethods.getUserData()?.picture.orEmpty()}")
         if (PrefMethods.getUserData() == null) {
             obsIsLogin.set(false)
             obsUserName.set(MyApp.context.getString(R.string.welcome))
@@ -37,11 +40,9 @@ class MainViewModel : BaseViewModel()
         } else {
             obsIsLogin.set(true)
             obsBtnLogout.set(MyApp.context.getString(R.string.information_account))
-            if (PrefMethods.getUserData()!!.name.toString()!="null") {
-                obsUserName.set(PrefMethods.getUserData()!!.name.toString())
-            }else{
-                obsUserName.set(PrefMethods.getUserData()!!.name.toString())
-            }
+            obsUserName.set(PrefMethods.getUserData()?.name.orEmpty())
+            Timber.e("image is ${PrefMethods.getUserData()?.picture.orEmpty()}")
+            userImg.value = PrefMethods.getUserData()?.picture.orEmpty()
         }
     }
 
@@ -64,7 +65,7 @@ class MainViewModel : BaseViewModel()
         }
     }
 
-    fun setActive(i: Int) {
+   /* fun setActive(i: Int) {
         activeRequest.is_working = i
         activeRequest.driver_id = PrefMethods.getUserData()!!.driver!!.id!!.toInt()
         val baeRepo = BaseRepository()
@@ -87,7 +88,7 @@ class MainViewModel : BaseViewModel()
                 setShowProgress(false)
             }
         })
-    }
+    }*/
 
 
 }

@@ -38,7 +38,7 @@
 <!--            <ImageView-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="@dimen/_60sdp"-->
-<!--                android:src="@drawable/app_logo1"-->
+<!--                android:src="@drawable/app_logo"-->
 <!--                android:scaleType="centerInside"-->
 <!--                android:layout_marginTop="@dimen/_16sdp" />-->
 
@@ -145,7 +145,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:src="@drawable/logo3"
+                    android:src="@drawable/app_logo"
                     tools:ignore="ContentDescription" />
 
                 <TextView

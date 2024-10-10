@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.driver.R
 import com.brandsin.driver.databinding.RawCompletedOrderBinding
 import com.brandsin.driver.utils.SingleLiveEvent
-import com.brandsin.driver.model.main.homepage.OrdersItem
+import com.brandsin.driver.ui.main.home.Order
 import java.util.*
 
 class CompletedOrdersAdapter : RecyclerView.Adapter<CompletedOrdersAdapter.CompletedOrdersHolder>()
 {
-    var itemsList: ArrayList<OrdersItem> = ArrayList()
-    var completedOrderItemLiveData = SingleLiveEvent<OrdersItem>()
+    var itemsList: ArrayList<Order> = ArrayList()
+    var completedOrderItemLiveData = SingleLiveEvent<Order>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompletedOrdersHolder
     {
@@ -36,7 +36,7 @@ class CompletedOrdersAdapter : RecyclerView.Adapter<CompletedOrdersAdapter.Compl
         return itemsList.size
     }
 
-    fun updateList(models: ArrayList<OrdersItem>) {
+    fun updateList(models: ArrayList<Order>) {
         itemsList = models
         notifyDataSetChanged()
     }

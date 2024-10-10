@@ -4,7 +4,7 @@ object Params
 {
     //const val BASE_URL = "https://backend.elmaredegypt.com"
     //const val BASE_URL = "https://hagaty-app.com"
-    const val BASE_URL = "https://backend.brandsin.net"
+    const val BASE_URL = "https://dev.brandsin.net"
     /* SHARED PREFERENCES NAME */
     const val SHARED_PREF_NAME = "HAGATY"
     const val PREF_LANGUAGE = "HAGATY_LANGUAGE"

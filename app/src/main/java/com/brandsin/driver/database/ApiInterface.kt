@@ -15,7 +15,6 @@ import com.brandsin.driver.model.auth.resetpass.ResetPassRequest
 import com.brandsin.driver.model.auth.resetpass.ResetPassResponse
 import com.brandsin.driver.model.auth.setting.countryId.CountryIdResponse
 import com.brandsin.driver.model.auth.verifycode.VerifyCodeResponse
-import com.brandsin.driver.model.main.homepage.OrdersResponse
 import com.brandsin.driver.model.menu.commonquest.CommonQuesResponse
 import com.brandsin.driver.model.menu.notifications.ReadNotificationRequest
 import com.brandsin.driver.model.main.order.CancelOrderRequest
@@ -36,6 +35,7 @@ import com.brandsin.driver.model.menu.active.ActiveRequest
 import com.brandsin.driver.model.menu.active.ActiveResponse
 import com.brandsin.driver.model.profile.UpdateLocatoin.UpdateLocatoinRequest
 import com.brandsin.driver.model.profile.UpdateLocatoin.UpdateLocatoinResponse
+import com.brandsin.driver.ui.main.home.OrderResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -104,15 +104,15 @@ interface ApiInterface
     suspend fun readNotification(@Body request : ReadNotificationRequest): ReadNotificationResponse
 
     @GET("/api/hajaty/pages")
-    suspend fun getCommonQues(@Query("type") type: String, @Query("lang") lang: String): CommonQuesResponse
+    suspend fun getCommonQues(@Query("type") type: String, @Query("lang") lang: String, @Query("slug") slug: String): CommonQuesResponse
 
     @GET("/api/hajaty/pages")
-    suspend fun getHelpQues(@Query("type") type: String, @Query("lang") lang: String): HelpQuesResponse
+    suspend fun getHelpQues(@Query("type") type: String, @Query("lang") lang: String,@Query("slug") slug: String): HelpQuesResponse
 
     @GET("/api/hajaty/driver/orders")
     suspend fun getStoreOrders(@Query("lang") lang: String,
                                @Query("driver_id") driver_id: Int,
-                               @Query("status") status: String): OrdersResponse
+                               @Query("status") status: String): OrderResponse
 
 
     @GET("/api/common/settings")

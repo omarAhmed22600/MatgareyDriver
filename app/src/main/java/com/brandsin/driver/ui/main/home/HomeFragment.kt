@@ -21,17 +21,18 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.brandsin.driver.R
 import com.brandsin.driver.databinding.HomeFragmentHomeBinding
 import com.brandsin.driver.model.constants.Codes
-import com.brandsin.driver.model.main.homepage.OrdersItem
 import com.brandsin.driver.ui.activity.BaseHomeFragment
 import com.brandsin.driver.ui.activity.home.HomeActivity
 import com.brandsin.driver.ui.main.home.completedorders.CompletedOrdersFragment
 import com.brandsin.driver.ui.main.home.neworders.NewOrdersFragment
 import es.dmoral.toasty.Toasty
+import timber.log.Timber
 
 class HomeFragment : BaseHomeFragment(), Observer<Any?>
 {
     lateinit var binding: HomeFragmentHomeBinding
     lateinit var viewModel: HomeViewModel
+    lateinit var tabLayout:TabLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -52,8 +53,7 @@ class HomeFragment : BaseHomeFragment(), Observer<Any?>
 
         val pagerAdapter = HomeOrdersPagerAdapter(this)
         binding.pager.adapter = pagerAdapter
-
-       val tabLayout = binding.tabLayout
+        tabLayout = binding.tabLayout
 
         TabLayoutMediator(tabLayout, binding.pager) { tab, position ->
             when (position)
@@ -61,7 +61,8 @@ class HomeFragment : BaseHomeFragment(), Observer<Any?>
                 0 -> {
                     val customView = requireActivity().layoutInflater.inflate(R.layout.raw_report_tab_item, null)
                     val itemName = customView.findViewById<TextView>(R.id.tv_itemName)
-                    itemName.text = getString(R.string.completed_orders)
+                    itemName.text = getString(R.string.new_orders)
+                    itemName.setTextColor(ContextCompat.getColor(requireActivity(), R.color.color_primary))
                     tab.customView = customView
                     customView.tag = 0
 
@@ -75,10 +76,11 @@ class HomeFragment : BaseHomeFragment(), Observer<Any?>
                 1 -> {
                     val customView = requireActivity().layoutInflater.inflate(R.layout.raw_report_tab_item, null)
                     val itemName = customView.findViewById<TextView>(R.id.tv_itemName)
-                    itemName.text = getString(R.string.new_orders)
-                    itemName.setTextColor(ContextCompat.getColor(requireActivity(), R.color.color_primary))
+                    itemName.text = getString(R.string.completed_orders)
                     tab.customView = customView
+
                     customView.tag = 1
+
                 }
             }
         }.attach()
@@ -105,7 +107,7 @@ class HomeFragment : BaseHomeFragment(), Observer<Any?>
                 viewName.typeface = myCustomFont
             }
         })
-
+        setSelectedTab(0)
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
       /*  (requireActivity() as HomeActivity).orderClickLiveData.observe(viewLifecycleOwner, Observer {
            // findNavController().navigate(R.id.home_to_order_details)
@@ -130,17 +132,24 @@ class HomeFragment : BaseHomeFragment(), Observer<Any?>
                 })
         // [END retrieve_current_token]
     }
-
+    private fun setSelectedTab(tabIndex: Int) {
+        // Check if the index is valid
+        if (tabIndex in 0 until tabLayout.tabCount) {
+            tabLayout.selectTab(tabLayout.getTabAt(tabIndex))
+        } else {
+            Timber.e("TabSelection Invalid tab index: $tabIndex")
+        }
+    }
     override fun onChanged(it: Any?)
     {
         if(it == null) return
         it.let {
-            if (it is OrdersItem)
+            if (it is Order)
             {
                 Toasty.success(requireActivity(), "eeeeeeee").show()
               //  findNavController().navigate(R.id.home_to_order_details)
             }
-            else if (it is OrdersItem)
+            else if (it is Order)
             {
                 Toasty.success(requireActivity(), "sssssssss").show()
                 //  findNavController().navigate(R.id.home_to_order_details)
@@ -174,8 +183,8 @@ class HomeFragment : BaseHomeFragment(), Observer<Any?>
 
         override fun createFragment(position: Int): Fragment {
             return when (position) {
-                1 -> NewOrdersFragment()
-                else -> CompletedOrdersFragment()
+                1 -> CompletedOrdersFragment()
+                else -> NewOrdersFragment()
             }
         }
     }

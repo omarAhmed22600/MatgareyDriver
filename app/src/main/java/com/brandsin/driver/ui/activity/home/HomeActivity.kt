@@ -27,14 +27,15 @@ import com.brandsin.driver.databinding.ActivityHomeBinding
 import com.brandsin.driver.databinding.NavHeaderMainBinding
 import com.brandsin.driver.model.constants.Codes
 import com.brandsin.driver.model.constants.Params
-import com.brandsin.driver.model.main.homepage.OrdersItem
 import com.brandsin.driver.network.ConnectivityReceiver
 import com.brandsin.driver.network.observe
 import com.brandsin.driver.ui.activity.ParentActivity
 import com.brandsin.driver.ui.activity.auth.AuthActivity
+import com.brandsin.driver.ui.main.home.Order
 import com.brandsin.driver.utils.PrefMethods
 import com.brandsin.driver.utils.SingleLiveEvent
 import com.google.android.material.navigation.NavigationView
+import timber.log.Timber
 
 
 class HomeActivity : ParentActivity(), Observer<Any?>, ConnectivityReceiver.ConnectivityReceiverListener {
@@ -61,6 +62,7 @@ class HomeActivity : ParentActivity(), Observer<Any?>, ConnectivityReceiver.Conn
         //init view model
         initViewModel()
         binding.viewModel = viewModel
+//        binding.lifecycleOwner = this
 
         drawerLayout = findViewById(R.id.drawer_layout)
         navView = findViewById(R.id.nav_view)
@@ -108,21 +110,32 @@ class HomeActivity : ParentActivity(), Observer<Any?>, ConnectivityReceiver.Conn
             }
         }
 
-        observe(orderClickLiveData) {
-            when (it) {
-                is OrdersItem -> {
-                    val bundle = Bundle()
-                    bundle.putInt(Params.ORDER_ID, it.id!!.toInt())
-                    orderClickLiveData.value = null
-                    navController.navigate(R.id.nav_order_details, bundle)
+        observe(orderClickLiveData) { order ->
+            if (order != null) {
+                when (order) {
+                    is Order -> {
+                        val orderId = order.id
+                        if (orderId != null) { // Check if orderId is not null
+                            val bundle = Bundle()
+                            bundle.putInt("order_id", orderId.toInt()) // Use the correct key from your nav_graph
+                            orderClickLiveData.value = null
+                            navController.navigate(R.id.nav_order_details, bundle)
+                        } else {
+                            // Handle the case when orderId is null if necessary
+                            Timber.e("OrderClick Order ID is null")
+                        }
+                    }
                 }
             }
         }
 
 
-        switch_action_activation =
-            navView.menu.findItem(R.id.nav_action_activation).actionView?.findViewById(R.id.switch_action_activation)
-        if (PrefMethods.getUserData() != null) {
+
+
+
+        /*switch_action_activation =
+            navView.menu.findItem(R.id.nav_action_activation).actionView?.findViewById(R.id.switch_action_activation)*/
+       /* if (PrefMethods.getUserData() != null) {
             if (PrefMethods.getUserData()!!.driver != null) {
                 switch_action_activation!!.isChecked =
                     PrefMethods.getUserData()!!.driver!!.isWorking == true
@@ -136,7 +149,7 @@ class HomeActivity : ParentActivity(), Observer<Any?>, ConnectivityReceiver.Conn
                     viewModel!!.setActive(0)
                 }
             }
-        }
+        }*/
 
         //data from NotificationOpenedHandler
         orderId = intent.getIntExtra("order_id", -1)

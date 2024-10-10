@@ -36,7 +36,21 @@ class ProfileFragment : BaseHomeFragment(), Observer<Any?>
 
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         binding.viewModel = viewModel
-
+        if (PrefMethods.getUserData() != null) {
+            if (PrefMethods.getUserData()!!.driver != null) {
+                binding.ibSwitchWorkStatus!!.isChecked =
+                    PrefMethods.getUserData()!!.driver!!.isWorking == true
+            }else{
+                binding.ibSwitchWorkStatus!!.isChecked = false
+            }
+            binding.ibSwitchWorkStatus!!.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    viewModel!!.setActive(1)
+                } else {
+                    viewModel!!.setActive(0)
+                }
+            }
+        }
         setBarName(getString(R.string.personal_profile))
 
         if (PrefMethods.getLanguage(requireActivity()) == "ar")

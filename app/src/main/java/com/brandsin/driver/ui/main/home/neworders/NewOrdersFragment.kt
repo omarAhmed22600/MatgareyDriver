@@ -1,5 +1,6 @@
 package com.brandsin.driver.ui.main.home.neworders
 
+import android.annotation.SuppressLint
 import android.content.IntentSender
 import android.location.Location
 import android.os.Bundle
@@ -17,9 +18,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.driver.R
 import com.brandsin.driver.databinding.HomeFragmentNewOrdersBinding
 import com.brandsin.driver.model.constants.Codes
-import com.brandsin.driver.model.main.homepage.OrdersItem
 import com.brandsin.driver.ui.activity.BaseHomeFragment
 import com.brandsin.driver.ui.activity.home.HomeActivity
+import com.brandsin.driver.ui.main.home.Order
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.internal.OnConnectionFailedListener
@@ -122,7 +123,7 @@ class NewOrdersFragment : BaseHomeFragment(), Observer<Any?>, GoogleApiClient.Co
     {
         if(it == null) return
         it.let {
-            if (it is OrdersItem)
+            if (it is Order)
             {
                 findNavController().navigate(R.id.new_orders_to_order_details)
             }
@@ -148,6 +149,7 @@ class NewOrdersFragment : BaseHomeFragment(), Observer<Any?>, GoogleApiClient.Co
         currentLongitude=p0.longitude
     }
 
+    @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
         val location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
 

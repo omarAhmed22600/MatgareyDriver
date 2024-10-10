@@ -47,7 +47,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
 
     private void sendNotification(RemoteMessage.Notification notification, Map<String, String> data) {
 
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.app_logo1);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.app_logo);
 
         if (intent == null) {
             intent = new Intent();
@@ -85,7 +85,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                     .setColor(getResources().getColor(R.color.color_primary))
                     .setLights(Color.RED, 1000, 300)
                     .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setSmallIcon(R.drawable.app_logo1)
+                    .setSmallIcon(R.drawable.app_logo)
                     .setStyle(new NotificationCompat.InboxStyle());
 
             //notificationBuilder.setSound(Uri.parse("android.resource://"+ getApplicationContext().getPackageName() + "/" + R.raw.notification));

@@ -123,18 +123,19 @@
                     android:id="@+id/vehicle_number"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:layout_marginEnd="@dimen/_12sdp"
-                    app:layout_constraintStart_toStartOf="@+id/textView31"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:textColor="@color/black"
+                    android:background="@android:color/transparent"
                     android:fontFamily="@font/cairo_semibold"
                     android:maxLength="11"
-                    android:textSize="@dimen/_12ssp"
                     android:textAlignment="viewStart"
-                    android:background="@android:color/transparent"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.987"
                     app:layout_constraintStart_toEndOf="@+id/imageView21"
+                    app:layout_constraintStart_toStartOf="@+id/textView31"
                     app:layout_constraintTop_toBottomOf="@+id/textView31"
                     tools:ignore="Autofill" />
 
@@ -179,14 +180,17 @@
                 <ImageView
                     android:id="@+id/licence_number"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:layout_marginEnd="@dimen/_12sdp"
-                    app:layout_constraintStart_toStartOf="@+id/text_email"
-                    android:layout_marginStart="@dimen/_8sdp"
+                    app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_email"
-                    app:layout_constraintTop_toBottomOf="@+id/text_email" />
+                    app:layout_constraintStart_toStartOf="@+id/text_email"
+                    app:layout_constraintTop_toBottomOf="@+id/text_email"
+                    tools:src="@drawable/app_logo" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

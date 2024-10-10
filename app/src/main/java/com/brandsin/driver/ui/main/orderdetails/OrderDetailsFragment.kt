@@ -155,34 +155,9 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>
                         }
                     }
                     Codes.UPDATE_STATUS -> {
-                        viewModel.setShowProgress(false)
-                        if (viewModel.orderDetails.order!!.status!!.contains("accepted")) {
-                            binding.btnAccept.visibility = View.VISIBLE
-                            showToast("تم قبول الطلب",2)
-                            if (PrefMethods.getUserData()!!.driver!!.storeId != null
-                                    && PrefMethods.getUserData()!!.driver!!.storeId.toString().isNotEmpty()){
-                                if (viewModel.orderDetails.order!!.status!! == "accepted_by_driver"){
-                                    binding.btnAccept.setText(R.string.accept_delivery)
-                                }else{
-                                    binding.btnAccept.setText(R.string.accept_order)
-                                }
-                            }else{
-                                binding.btnAccept.setText(R.string.accept_delivery)
-                            }
-                        } else if (viewModel.orderDetails.order!!.status == "shipping") {
-                            binding.btnAccept.visibility = View.VISIBLE
-                            showToast("تم قبول التوصيل",2)
-                            binding.btnAccept.setText(R.string.start_delivery)
 
-                        } else if (viewModel.orderDetails.order!!.status == "shipped") {
-                            binding.btnAccept.visibility = View.VISIBLE
-                            showToast("تم قبول بدأ التوصيل",2)
-                            binding.btnAccept.setText(R.string.show_map)
-                        } else if (viewModel.orderDetails.order!!.status == "completed") {
-                            binding.btnAccept.visibility = View.GONE
-                            startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                            requireActivity().finishAffinity()
-                        }
+                        viewModel.getOrderDetails(orderId)
+                        viewModel.setShowProgress(false)
                     }
                     Codes.OPEN_MAP -> {
                         val intent = Intent(requireActivity(), MapActivity::class.java)

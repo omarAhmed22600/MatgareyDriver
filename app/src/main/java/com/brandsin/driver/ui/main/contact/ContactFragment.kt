@@ -55,7 +55,7 @@ class ContactFragment : BaseHomeFragment(), Observer<Any?>
                 if (viewModel.socialLinks.mail==null){
                     binding.ivGmail.visibility = View.GONE
                 }
-                if (viewModel.socialLinks.TikTok==null){
+                if (viewModel.socialLinks.tikTok==null){
                     binding.ivTiktok.visibility = View.GONE
                 }
             }
@@ -63,10 +63,10 @@ class ContactFragment : BaseHomeFragment(), Observer<Any?>
                 Utils.callPhone(requireActivity(), viewModel.obsPhoneNumber.get().toString())
             }
             Codes.TIKTOK_CLICKED ->{
-                Utils.openLink(requireActivity(), viewModel.socialLinks.TikTok)
+                Utils.openLink(requireActivity(), viewModel.socialLinks.tikTok)
             }
             Codes.FACE_CLICKED -> {
-                Utils.openLink(requireActivity(), viewModel.socialLinks.facebook)
+                Utils.openLink(requireActivity(), "https://www.facebook.com/brandsin.sa")
             }
             Codes.GMAIL_CLICKED -> {
                 Utils.openMail(requireActivity(), viewModel.socialLinks.mail.toString())

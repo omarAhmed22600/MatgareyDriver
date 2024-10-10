@@ -1,5 +1,8 @@
 package com.brandsin.driver.ui.main.orderdetails
 
+import android.content.Intent
+import android.net.Uri
+import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.brandsin.driver.R
@@ -46,6 +49,38 @@ class OrderDetailsViewModel : BaseViewModel()
 
     fun onCallStoreImgClicked() {
         setValue(Codes.CALL_STORE_CLICKED)
+    }
+    fun onWhatsAppStoreClicked(v:View)
+    {
+        var phoneNumber = orderDetails.order!!.store!!.phoneNumber
+        if (phoneNumber.orEmpty().contains("+966").not())
+        {
+            phoneNumber = phoneNumber.orEmpty().filter { it != '+' }
+            phoneNumber = "+966$phoneNumber"
+        }
+        if (phoneNumber != null) {
+            val url =
+                "https://api.whatsapp.com/send?phone=" + phoneNumber.orEmpty()
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            v.context.startActivity(i)
+        }
+    }
+    fun onWhatsAppUserClicked(v:View)
+    {
+        var phoneNumber = orderDetails.order!!.phoneNumber
+        if (phoneNumber.orEmpty().contains("+966").not())
+        {
+            phoneNumber = phoneNumber.orEmpty().filter { it != '+' }
+            phoneNumber = "+966$phoneNumber"
+        }
+        if (phoneNumber != null) {
+            val url =
+                "https://api.whatsapp.com/send?phone=" + phoneNumber.orEmpty()
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            v.context.startActivity(i)
+        }
     }
     fun getOrderDetails(orderId: Int)
     {
@@ -173,7 +208,6 @@ class OrderDetailsViewModel : BaseViewModel()
             override fun onResponse(call: Call< UpdateStatusResponse?>, response: Response< UpdateStatusResponse?>) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success!!) {
-                        orderDetails.order!!.status = response.body()!!.data!!.status.toString()
                         setValue(Codes.UPDATE_STATUS)
                     }else{
                         setValue(response.body()!!.message.toString())

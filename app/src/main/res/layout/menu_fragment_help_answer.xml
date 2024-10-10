@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/cairo_semibold"
                 android:scaleType="centerCrop"
-                android:src="@drawable/app_logo1"
+                android:src="@drawable/app_logo"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_11ssp"
                 tools:text="@string/terms_text" />
