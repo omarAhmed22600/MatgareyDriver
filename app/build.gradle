@@ -24,7 +24,6 @@ android {
     compileSdkVersion 34
     buildToolsVersion "30.0.2"
     namespace 'com.brandsin.driver'
-
     defaultConfig {
         applicationId "com.brandsin.driverapp"
         minSdkVersion 24

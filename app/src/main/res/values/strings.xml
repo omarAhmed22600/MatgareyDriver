@@ -36,7 +36,7 @@
     <string name="_00000">00000</string>
     <string name="reset_title">Enter new password</string>
     <string name="reset_desc">Enter yuor new password</string>
-    <string name="terms_text">لكي تصبح عضواً في تطبيق المارد على الشبكة، يتعين عليك في البداية أن تقوم بتعبئة استمارة التسجيل، ثم الموافقة والتعهد على الالتزام بأحكام إتفاقية مستخدم طلبات دوت کوم، وعند تعبئة واعتماد استمارة التسجيل أو الحصول على أية خدمات أو طلب وجبة باستخدام الموقع؛ ف</string>
+    <string name="terms_text">To become a member of the BrandsIn network application, you must first fill out the registration form, then agree and commit to the terms of the Talabat.com User Agreement. Upon completing and approving the registration form or obtaining any services or ordering a meal using the site;</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
     <string name="title_activity_home">HomeActivity</string>
@@ -222,8 +222,8 @@
     <string name="licence_number">Vehicle license number</string>
     <string name="enter_licence_number">Enter Vehicle license number</string>
     <string name="personal_profile">Profile</string>
-    <string name="no_delivery_requests_till_now">No requests untill now</string>
-    <string name="no_reports_till_now">No reports untill now</string>
+    <string name="no_delivery_requests_till_now">No requests until now</string>
+    <string name="no_reports_till_now">No reports until now</string>
     <string name="all_delivery_requests_will_shows_here">All new orders will appear here</string>
     <string name="all_reports_will_shows_here">All reports will appear here</string>
     <string name="accept_order">Accept order</string>

@@ -3,6 +3,7 @@ package com.brandsin.driver.ui.activity.home
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,28 +18,27 @@ import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import bolts.Task.delay
 import com.brandsin.driver.R
 import com.brandsin.driver.databinding.ActivityHomeBinding
 import com.brandsin.driver.databinding.NavHeaderMainBinding
 import com.brandsin.driver.model.constants.Codes
-import com.brandsin.driver.model.constants.Params
-import com.brandsin.driver.network.ConnectivityReceiver
 import com.brandsin.driver.network.observe
 import com.brandsin.driver.ui.activity.ParentActivity
 import com.brandsin.driver.ui.activity.auth.AuthActivity
 import com.brandsin.driver.ui.main.home.Order
-import com.brandsin.driver.utils.PrefMethods
 import com.brandsin.driver.utils.SingleLiveEvent
 import com.google.android.material.navigation.NavigationView
 import timber.log.Timber
 
 
-class HomeActivity : ParentActivity(), Observer<Any?>, ConnectivityReceiver.ConnectivityReceiverListener {
+class HomeActivity : ParentActivity(), Observer<Any?> {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navView: NavigationView
@@ -47,17 +47,33 @@ class HomeActivity : ParentActivity(), Observer<Any?>, ConnectivityReceiver.Conn
     lateinit var navController: NavController
     val orderClickLiveData = SingleLiveEvent<Any?>()
     var switch_action_activation: SwitchCompat? = null
-    private lateinit var connectivityReceiver: ConnectivityReceiver
+    private lateinit var networkConnectionManager: ConnectivityManager
+    private lateinit var networkConnectionCallback: ConnectivityManager.NetworkCallback
 
+    private fun initConnectivityManager() {
+        networkConnectionManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                // there is internet
+                binding.noWifi.visibility = View.GONE
+            }
+
+            override fun onLost(network: Network) {
+                // there is no internet
+                lifecycleScope.launchWhenResumed {
+                    delay(1000)
+                    binding.noWifi.visibility = View.VISIBLE
+                }
+            }
+        }
+        networkConnectionManager.registerDefaultNetworkCallback(networkConnectionCallback)
+    }
     var orderId = -1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        connectivityReceiver = ConnectivityReceiver(this)
-        registerReceiver(connectivityReceiver,
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
+        initConnectivityManager()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         //init view model
         initViewModel()
@@ -273,17 +289,9 @@ class HomeActivity : ParentActivity(), Observer<Any?>, ConnectivityReceiver.Conn
             }
         }
     }
-    override fun onNetworkConnectionChanged(isConnected: Boolean) {
-        if (isConnected) {
-            binding.noWifi.visibility = View.GONE
-        } else {
-            binding.noWifi.visibility = View.VISIBLE
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(connectivityReceiver)
     }
 
 }

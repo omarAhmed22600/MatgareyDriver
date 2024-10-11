@@ -3,12 +3,12 @@ package com.brandsin.driver.ui.activity.auth
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -17,30 +17,45 @@ import androidx.navigation.findNavController
 import com.brandsin.driver.R
 import com.brandsin.driver.databinding.ActivityAuthBinding
 import com.brandsin.driver.model.constants.Const
-import com.brandsin.driver.network.ConnectivityReceiver
 import com.brandsin.driver.ui.activity.ParentActivity
 import com.brandsin.driver.ui.activity.home.HomeActivity
 import com.brandsin.driver.utils.PrefMethods
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class AuthActivity : ParentActivity(),ConnectivityReceiver.ConnectivityReceiverListener
+class AuthActivity : ParentActivity()
 {
     lateinit var binding : ActivityAuthBinding
     var viewModel: AuthViewModel? = null
     private lateinit var navController: NavController
-    private lateinit var connectivityReceiver: ConnectivityReceiver
+    private lateinit var networkConnectionManager: ConnectivityManager
+    private lateinit var networkConnectionCallback: ConnectivityManager.NetworkCallback
 
+    private fun initConnectivityManager() {
+        networkConnectionManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                // there is internet
+                binding.noWifi.visibility = View.GONE
+            }
+
+            override fun onLost(network: Network) {
+                // there is no internet
+                lifecycleScope.launchWhenResumed {
+                    delay(1000)
+                    binding.noWifi.visibility = View.VISIBLE
+                }
+            }
+        }
+        networkConnectionManager.registerDefaultNetworkCallback(networkConnectionCallback)
+    }
     var orderId =-1
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         //LocalUtil.changeLanguage(this)
         super.onCreate(savedInstanceState)
-        connectivityReceiver = ConnectivityReceiver(this)
-        registerReceiver(connectivityReceiver,
-            IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        )
+        initConnectivityManager()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth)
         //init view model
         initViewModel()
@@ -152,16 +167,8 @@ class AuthActivity : ParentActivity(),ConnectivityReceiver.ConnectivityReceiverL
             }
         }
     }
-    override fun onNetworkConnectionChanged(isConnected: Boolean) {
-        if (isConnected) {
-            binding.noWifi.visibility = View.GONE
-        } else {
-            binding.noWifi.visibility = View.VISIBLE
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(connectivityReceiver)
     }
 }
