@@ -400,5 +400,17 @@
     <string name="notes_driver">Notes</string>
     <string name="service">service</string>
     <string name="taxs">Taxs</string>
+    <string name="permission_granted_try_again">Permission Granted Try Again!</string>
+    <string name="permissions_are_needed_to_access_your_media">Permissions are needed to access your media.</string>
+    <string name="permissions_denied_please_enable_them_in_settings">Permissions denied. Please enable them in settings.</string>
+    <string name="invalid_uri_or_file_path">Invalid URI or file path: %1$s</string>
+    <string name="permission_denied">Permission denied: %1$s</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="photo_or_video">Photo or video</string>
+    <string name="video">Video</string>
+
+    <string name="photo">photo</string>
+    <string name="someThing_went_wrong">Something went wrong</string>
 
 </resources>

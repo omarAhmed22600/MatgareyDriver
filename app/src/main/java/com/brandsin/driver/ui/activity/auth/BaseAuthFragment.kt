@@ -30,7 +30,7 @@ open class BaseAuthFragment : BaseFragment()
     fun setBarName(title: String)
     {
         (requireActivity() as AuthActivity).run {
-            viewModel?.obsTitle!!.set(title)
+            viewModel?.obsTitle?.set(title.orEmpty())
         }
     }
 }

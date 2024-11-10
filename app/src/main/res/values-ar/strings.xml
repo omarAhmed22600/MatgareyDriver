@@ -272,9 +272,18 @@
     <string name="msg_subscribe_failed">Failed to subscribe to weather topic</string>
     <string name="fcm_message">FCM Message</string>
     <string name="pick_image_intent_text">اختر صورة</string>
+    <string name="someThing_went_wrong">حدث خطأ ما</string>
+    <string name="photo">صورة</string>
+    <string name="photo_or_video">صورة او فيديو</string>
+    <string name="video">فيديو</string>
 
-
-
+    <string name="gallery">المعرض</string>
+    <string name="camera">كاميرا</string>
+<string name="permission_granted_try_again">تم منح الإذن، حاول مرة أخرى!</string>
+    <string name="permissions_are_needed_to_access_your_media">هناك حاجة إلى الأذونات للوصول إلى الوسائط الخاصة بك.</string>
+    <string name="permissions_denied_please_enable_them_in_settings">تم رفض الأذونات. يرجى تمكينها في الإعدادات.</string>
+    <string name="invalid_uri_or_file_path">رابط URI أو مسار الملف غير صالح: %1$s</string>
+    <string name="permission_denied">تم رفض الإذن: %1$s</string>
     <string name="empty_phone">من فضلك ادخل رقم الموبايل</string>
     <string name="invalid_phone">"رقم الموبايل يجب ان يتكون من 10 رقم "</string>
     <string name="empty_password">من فضلك ادخل كلمة المرور</string>

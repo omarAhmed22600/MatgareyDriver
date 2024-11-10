@@ -22,6 +22,7 @@ import com.brandsin.driver.ui.activity.home.HomeActivity
 import com.brandsin.driver.utils.PrefMethods
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class AuthActivity : ParentActivity()
 {
@@ -35,15 +36,28 @@ class AuthActivity : ParentActivity()
         networkConnectionManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
+
                 // there is internet
-                binding.noWifi.visibility = View.GONE
+                try
+                {
+                    binding.noWifi.visibility = View.GONE
+                } catch (e:Exception)
+                {
+                    Timber.e(e.stackTraceToString())
+                }
             }
 
             override fun onLost(network: Network) {
                 // there is no internet
+                try
+                {
                 lifecycleScope.launchWhenResumed {
                     delay(1000)
                     binding.noWifi.visibility = View.VISIBLE
+                }
+                } catch (e:Exception)
+                {
+                    Timber.e(e.stackTraceToString())
                 }
             }
         }
@@ -55,22 +69,12 @@ class AuthActivity : ParentActivity()
     {
         //LocalUtil.changeLanguage(this)
         super.onCreate(savedInstanceState)
-        initConnectivityManager()
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth)
         //init view model
         initViewModel()
         binding.viewModel = viewModel
         navController = findNavController(R.id.nav_auth_host_fragment)
-
-        /*Tovuti.from(this).monitor { connectionType, isConnected, isFast ->
-            if (isConnected) {
-                binding.noWifi.visibility = View.GONE
-            } else {
-                binding.noWifi.visibility = View.VISIBLE
-            }
-        }*/
-
-
         //data from NotificationOpenedHandler
         if (intent.getIntExtra("order_id",-1)!=-1) {
             orderId = intent.getIntExtra("order_id",-1)
@@ -109,7 +113,7 @@ class AuthActivity : ParentActivity()
                 }
             }
         }
-
+        initConnectivityManager()
         setUpToolbarAndStatusBar()
         startIntent()
 

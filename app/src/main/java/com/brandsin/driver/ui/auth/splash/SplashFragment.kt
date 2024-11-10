@@ -21,23 +21,27 @@ import com.brandsin.driver.utils.PrefMethods
 import com.google.android.exoplayer2.SimpleExoPlayer
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 
-class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener
-{
+class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener {
     lateinit var binding: AuthFragmentSplashBinding
 
     private var player: SimpleExoPlayer? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.auth_fragment_splash,
             container,
             false
         )
+
 //
 //                lifecycleScope.launch {
 //            delay(2000)
@@ -58,33 +62,34 @@ class SplashFragment : BaseAuthFragment(), MediaPlayer.OnCompletionListener
 
 
     }
-/*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        val path = "android.resource://" + requireActivity().packageName.toString() + "/" + R.raw.splash
+    /*
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
 
-        binding.vedioSplash.setVideoURI(Uri.parse(path),false)
+            val path = "android.resource://" + requireActivity().packageName.toString() + "/" + R.raw.splash
 
-        binding.vedioSplash.start()
-        binding.vedioSplash.setOnCompletionListener {
-            when {
-                PrefMethods.getLoginState() -> {
-                    requireActivity().startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                    requireActivity().finishAffinity()
-                }
-                else -> {
-                    findNavController().navigate(R.id.splash_to_login_ways)
+            binding.vedioSplash.setVideoURI(Uri.parse(path),false)
+
+            binding.vedioSplash.start()
+            binding.vedioSplash.setOnCompletionListener {
+                when {
+                    PrefMethods.getLoginState() -> {
+                        requireActivity().startActivity(Intent(requireActivity(), HomeActivity::class.java))
+                        requireActivity().finishAffinity()
+                    }
+                    else -> {
+                        findNavController().navigate(R.id.splash_to_login_ways)
+                    }
                 }
             }
         }
-    }
-*/
-override fun onStart() {
-    super.onStart()
-    startVideo()
+    */
+    override fun onStart() {
+        super.onStart()
+        startVideo()
 
-}
+    }
 
     private fun startVideo() {
         val url: Uri =
@@ -102,15 +107,49 @@ override fun onStart() {
     override fun onCompletion(p0: MediaPlayer?) {
         lifecycleScope.launch {
             //delay(2000)
-            when {
-                PrefMethods.getLoginState() -> {
-                    requireActivity().startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                    requireActivity().finishAffinity()
-                }
-                else -> {
-                    findNavController().navigate(R.id.splash_to_login_ways)
+            if (checkIfAllPermissionsGranted().not()) {
+                Timber.e("permissions ${getNonGrantedPermissions()} isnt granted")
+                checkAndRequestAllPermissions(
+                    onDontAskAgain = {
+                        binding.permissionErrorTv.visibility = View.VISIBLE
+                    },
+                    onGranted = {
+
+                        when {
+                            PrefMethods.getLoginState() -> {
+                                requireActivity().startActivity(
+                                    Intent(
+                                        requireActivity(),
+                                        HomeActivity::class.java
+                                    )
+                                )
+
+                                requireActivity().finishAffinity()
+                            }
+
+                            else -> {
+                                findNavController().navigate(R.id.splash_to_login_ways)
+                            }
+                        }
+                    })
+            } else {
+                when {
+                    PrefMethods.getLoginState() -> {
+                        requireActivity().startActivity(
+                            Intent(
+                                requireActivity(),
+                                HomeActivity::class.java
+                            )
+                        )
+                        requireActivity().finishAffinity()
+                    }
+
+                    else -> {
+                        findNavController().navigate(R.id.splash_to_login_ways)
+                    }
                 }
             }
+
         }
 
     }

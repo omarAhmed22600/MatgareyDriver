@@ -2,11 +2,15 @@ package com.brandsin.driver.ui.auth.register
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.MimeTypeMap
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -28,16 +32,21 @@ import com.brandsin.driver.utils.MyApp
 import com.brandsin.driver.utils.Utils
 import com.brandsin.driver.utils.observe
 import com.brandsin.store.network.Status
+import com.fxn.pix.Options
+import org.koin.android.ext.android.get
 import timber.log.Timber
 import java.io.File
+import java.io.FileOutputStream
 
-class RegisterFragment : BaseAuthFragment(), Observer<Any?>
-{
-    lateinit var binding : AuthFragmentRegisterBinding
-    lateinit var viewModel : RegisterViewModel
+class RegisterFragment : BaseAuthFragment(), Observer<Any?> {
+    lateinit var binding: AuthFragmentRegisterBinding
+    lateinit var viewModel: RegisterViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(
             inflater,
@@ -49,21 +58,26 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onResume() {
+        super.onResume()
+        setBarName(getString(R.string.create_account))
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         binding.viewModel = viewModel
-
-        val secondFragmentArgs: RegisterFragmentArgs = RegisterFragmentArgs.fromBundle(requireArguments())
+        val secondFragmentArgs: RegisterFragmentArgs =
+            RegisterFragmentArgs.fromBundle(requireArguments())
         viewModel.storeCode = secondFragmentArgs.storeCode
-        if (viewModel.storeCode == "1"){
+        if (viewModel.storeCode == "1") {
             binding.codeLayout.visibility = View.VISIBLE
-        }else if (viewModel.storeCode == "0"){
+        } else if (viewModel.storeCode == "0") {
             binding.codeLayout.visibility = View.GONE
         }
 
-        setBarName(getString(R.string.create_account))
+
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
 
@@ -73,7 +87,10 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
                 requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             } else {
                 binding.progressLayout.visibility = View.VISIBLE
-                requireActivity().window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                requireActivity().window.setFlags(
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                );
             }
         })
 
@@ -82,9 +99,11 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
                 Status.ERROR_MESSAGE -> {
                     showToast(it.message.toString(), 1)
                 }
+
                 Status.SUCCESS_MESSAGE -> {
                     showToast(it.message.toString(), 2)
                 }
+
                 Status.SUCCESS -> {
                     when (it.data) {
                         is RegisterResponse -> {
@@ -93,6 +112,7 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
                         }
                     }
                 }
+
                 else -> {
                     Timber.e(it.message)
                 }
@@ -102,96 +122,125 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
         // Get token
         // [START retrieve_current_token]
         FirebaseInstanceId.getInstance().instanceId
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        return@OnCompleteListener
-                    }
-                    // Get new Instance ID token
-                    val token = task.result.token
-                    viewModel.deviceTokenRequest.token = token
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    return@OnCompleteListener
+                }
+                // Get new Instance ID token
+                val token = task.result.token
+                viewModel.deviceTokenRequest.token = token
 
-                    // Log and toast
-                    val msg = getString(R.string.msg_token_fmt, token)
-                })
+                // Log and toast
+                val msg = getString(R.string.msg_token_fmt, token)
+            })
         // [END retrieve_current_token]
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
+    override fun onChanged(it: Any?) {
+        if (it == null) return
         it.let {
             when (it) {
                 Codes.EMPTY_UserPic_THUMB -> {
                     showToast(getString(R.string.please_enter_user_photo), 1)
                 }
+
                 Codes.NAME_EMPTY -> {
                     showToast(getString(R.string.please_enter_your_first_name), 1)
                 }
+
                 Codes.EMPTY_LAST_NAME -> {
                     showToast(getString(R.string.please_enter_your_last_name), 1)
                 }
+
                 Codes.EMPTY_PHONE -> {
                     showToast(getString(R.string.please_enter_your_phone), 1)
                 }
+
                 Codes.INVALID_PHONE -> {
                     showToast(getString(R.string.invalid_phone), 1)
                 }
+
                 Codes.EMAIL_EMPTY -> {
                     showToast(getString(R.string.please_enter_your_email), 1)
                 }
+
                 Codes.EMAIL_INVALID -> {
                     showToast(getString(R.string.email_must_correct), 1)
                 }
+
                 Codes.EMPTY_DRIVER_LAT -> {
                     showToast(getString(R.string.please_enter_store_address), 1)
                 }
+
                 Codes.EMPTY_NationalId_IMAGE -> {
                     showToast(getString(R.string.please_enter_national_id_photo), 1)
                 }
+
                 Codes.EMPTY_DriverLicence_THUMB -> {
                     showToast(getString(R.string.please_enter_driver_licence_photo), 1)
                 }
+
                 Codes.EMPTY_STORE_CODE -> {
                     showToast(getString(R.string.please_enter_store_code), 1)
                 }
+
                 Codes.EMPTY_VehicleType -> {
                     showToast(getString(R.string.select_vehicle_type), 1)
                 }
+
                 Codes.EMPTY_VehicleNumber -> {
                     showToast(getString(R.string.enter_vehicle_number), 1)
                 }
+
                 Codes.EMPTY_DrivingLicence -> {
                     showToast(getString(R.string.enter_licence_number), 1)
                 }
+
                 Codes.PASSWORD_EMPTY -> {
                     showToast(getString(R.string.please_enter_your_password), 1)
                 }
+
                 Codes.PASSWORD_SHORT -> {
                     showToast(getString(R.string.short_password), 1)
                 }
+
                 Codes.EMPTY_Vehicle_THUMB -> {
                     showToast(getString(R.string.please_enter_vehicle_photo), 1)
                 }
+
                 Codes.SELECT_VehicleType -> {
                     val bundle = Bundle()
-                    bundle.putString(Params.Driver_VehicleType,viewModel.request.vehicle_type.toString())
-                    Utils.startDialogActivity(requireActivity(), DialogVehicleTypeFragment::class.java.name, Codes.DIALOG_VehicleType_CODE, bundle)
+                    bundle.putString(
+                        Params.Driver_VehicleType,
+                        viewModel.request.vehicle_type.toString()
+                    )
+                    Utils.startDialogActivity(
+                        requireActivity(),
+                        DialogVehicleTypeFragment::class.java.name,
+                        Codes.DIALOG_VehicleType_CODE,
+                        bundle
+                    )
                 }
+
                 Codes.LOCATION_CLICKED -> {
                     val intent = Intent(requireActivity(), MapActivity::class.java)
                     startActivityForResult(intent, Codes.GETTING_USER_LOCATION)
                 }
+
                 Codes.SELECT_NationalId_IMAGE -> {
-                    pickImage(Codes.SELECT_NationalId_IMAGE)
+                    pickImage(Codes.SELECT_NationalId_IMAGE, Options.Mode.Picture)
                 }
+
                 Codes.SELECT_DriverLicence_IMAGE -> {
-                    pickImage(Codes.SELECT_DriverLicence_IMAGE)
+                    pickImage(Codes.SELECT_DriverLicence_IMAGE, Options.Mode.Picture)
                 }
+
                 Codes.SELECT_Vehicle_IMAGE -> {
-                    pickImage(Codes.SELECT_Vehicle_IMAGE)
+                    pickImage(Codes.SELECT_Vehicle_IMAGE, Options.Mode.Picture)
                 }
+
                 Codes.SELECT_UserPic_IMAGE -> {
-                    pickImage(Codes.SELECT_UserPic_IMAGE)
+                    pickImage(Codes.SELECT_UserPic_IMAGE, Options.Mode.Picture)
                 }
             }
         }
@@ -203,48 +252,281 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
             Activity.RESULT_OK -> {
                 when (requestCode) {
                     Codes.SELECT_NationalId_IMAGE -> {
-                        if (data != null) {
-                            val returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notNationalIdImg.visibility = View.GONE
-                                binding.ivNationalIdPhoto.visibility = View.VISIBLE
-                                binding.ivNationalIdImg.setImageURI(array[0].toUri())
-                                viewModel.request.national_id_image =  File(array[0])
-                            } }
-                    }
-                    Codes.SELECT_DriverLicence_IMAGE -> {
-                        if (data != null) {
-                            val returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notThumbImg.visibility = View.GONE
-                                binding.ivThumb.visibility = View.VISIBLE
-                                binding.ivDriverLicencePhoto.setImageURI(array[0].toUri())
-                                viewModel.request.driving_licence_image =  File(array[0])
-                            }
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        Timber.e("file uri is $fileUri")
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
+                        } ?: run {
+                            showToast(getString(R.string.someThing_went_wrong), 1)
+                            return
                         }
+                        var bitmap : Bitmap? = null
+                        try {
+                            bitmap = when {
+                                // Handle content URI (content://)
+                                fileUri.scheme.equals("content", ignoreCase = true) -> {
+                                    // Use ContentResolver to open an InputStream for content URIs
+                                    val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
+                                    BitmapFactory.decodeStream(inputStream)
+                                }
+                                // Handle file URI (file://) or regular file path
+                                fileUri.scheme.equals("file", ignoreCase = true) || fileUri.scheme == null -> {
+                                    BitmapFactory.decodeFile(file.absolutePath)
+                                }
+                                else -> null
+                            }
+
+                            // If bitmap is successfully created
+                            bitmap?.let {
+                                // Resize the bitmap to a manageable size
+                                val resizedBitmap = resizeBitmap(it, 1024, 1024) // Adjust maxWidth and maxHeight as needed
+
+                                // Rotate the resized bitmap if required
+                                bitmap = rotateImageIfRequired(requireContext(), resizedBitmap, fileUri)
+                                Timber.e("Bitmap created and processed successfully")
+                            } ?: run {
+                                Timber.e("Failed to create bitmap: unsupported URI scheme")
+                                showToast(getString(R.string.someThing_went_wrong),1)
+                                return
+                            }
+
+                            // Handle image selection
+                            Timber.e("Image selected")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            showToast(getString(R.string.someThing_went_wrong),1)
+                            Timber.e("Error converting Uri to Bitmap: ${e.message}")
+                            return
+                        }
+
+                        binding.notNationalIdImg.visibility = View.GONE
+                        binding.ivNationalIdPhoto.visibility = View.VISIBLE
+                        binding.ivNationalIdImg.setImageBitmap(bitmap)
+                        viewModel.request.national_id_image = file
+//                            } }
+                    }
+
+                    Codes.SELECT_DriverLicence_IMAGE -> {
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        Timber.e("file uri is $fileUri")
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
+                        } ?: run {
+                            showToast(getString(R.string.someThing_went_wrong), 1)
+                            return
+                        }
+                        var bitmap : Bitmap? = null
+                        try {
+                            bitmap = when {
+                                // Handle content URI (content://)
+                                fileUri.scheme.equals("content", ignoreCase = true) -> {
+                                    // Use ContentResolver to open an InputStream for content URIs
+                                    val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
+                                    BitmapFactory.decodeStream(inputStream)
+                                }
+                                // Handle file URI (file://) or regular file path
+                                fileUri.scheme.equals("file", ignoreCase = true) || fileUri.scheme == null -> {
+                                    BitmapFactory.decodeFile(file.absolutePath)
+                                }
+                                else -> null
+                            }
+
+                            // If bitmap is successfully created
+                            bitmap?.let {
+                                // Resize the bitmap to a manageable size
+                                val resizedBitmap = resizeBitmap(it, 1024, 1024) // Adjust maxWidth and maxHeight as needed
+
+                                // Rotate the resized bitmap if required
+                                bitmap = rotateImageIfRequired(requireContext(), resizedBitmap, fileUri)
+                                Timber.e("Bitmap created and processed successfully")
+                            } ?: run {
+                                Timber.e("Failed to create bitmap: unsupported URI scheme")
+                                showToast(getString(R.string.someThing_went_wrong),1)
+                                return
+                            }
+
+                            // Handle image selection
+                            Timber.e("Image selected")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            showToast(getString(R.string.someThing_went_wrong),1)
+                            Timber.e("Error converting Uri to Bitmap: ${e.message}")
+                            return
+                        }
+
+                        binding.notThumbImg.visibility = View.GONE
+                        binding.ivThumb.visibility = View.VISIBLE
+                        binding.ivDriverLicencePhoto.setImageBitmap(bitmap)
+                        viewModel.request.driving_licence_image = file
                     }
 
                     Codes.SELECT_Vehicle_IMAGE -> {
-                        if (data != null) {
-                            val returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notVehicleImg.visibility = View.GONE
-                                binding.ivVehicle.visibility = View.VISIBLE
-                                binding.ivVehiclePhoto.setImageURI(array[0].toUri())
-                                viewModel.request.vehicle_image =  File(array[0])
-                            }
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        Timber.e("file uri is $fileUri")
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
+                        } ?: run {
+                            showToast(getString(R.string.someThing_went_wrong), 1)
+                            return
                         }
+                        var bitmap : Bitmap? = null
+                        try {
+                            bitmap = when {
+                                // Handle content URI (content://)
+                                fileUri.scheme.equals("content", ignoreCase = true) -> {
+                                    // Use ContentResolver to open an InputStream for content URIs
+                                    val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
+                                    BitmapFactory.decodeStream(inputStream)
+                                }
+                                // Handle file URI (file://) or regular file path
+                                fileUri.scheme.equals("file", ignoreCase = true) || fileUri.scheme == null -> {
+                                    BitmapFactory.decodeFile(file.absolutePath)
+                                }
+                                else -> null
+                            }
+
+                            // If bitmap is successfully created
+                            bitmap?.let {
+                                // Resize the bitmap to a manageable size
+                                val resizedBitmap = resizeBitmap(it, 1024, 1024) // Adjust maxWidth and maxHeight as needed
+
+                                // Rotate the resized bitmap if required
+                                bitmap = rotateImageIfRequired(requireContext(), resizedBitmap, fileUri)
+                                Timber.e("Bitmap created and processed successfully")
+                            } ?: run {
+                                Timber.e("Failed to create bitmap: unsupported URI scheme")
+                                showToast(getString(R.string.someThing_went_wrong),1)
+                                return
+                            }
+
+                            // Handle image selection
+                            Timber.e("Image selected")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            showToast(getString(R.string.someThing_went_wrong),1)
+                            Timber.e("Error converting Uri to Bitmap: ${e.message}")
+                            return
+                        }
+
+                        binding.notVehicleImg.visibility = View.GONE
+                        binding.ivVehicle.visibility = View.VISIBLE
+                        binding.ivVehiclePhoto.setImageBitmap(bitmap)
+                        viewModel.request.vehicle_image = file
+
                     }
 
                     Codes.SELECT_UserPic_IMAGE -> {
-                        if (data != null) {
-                            val returnValue = data.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.ivUserImg.setImageURI(array[0].toUri())
-                                viewModel.request.user_picture =  File(array[0])
-                            }
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        Timber.e("file uri is $fileUri")
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
+                        } ?: run {
+                            showToast(getString(R.string.someThing_went_wrong), 1)
+                            return
                         }
+                        var bitmap : Bitmap? = null
+                        try {
+                            bitmap = when {
+                                // Handle content URI (content://)
+                                fileUri.scheme.equals("content", ignoreCase = true) -> {
+                                    // Use ContentResolver to open an InputStream for content URIs
+                                    val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
+                                    BitmapFactory.decodeStream(inputStream)
+                                }
+                                // Handle file URI (file://) or regular file path
+                                fileUri.scheme.equals("file", ignoreCase = true) || fileUri.scheme == null -> {
+                                    BitmapFactory.decodeFile(file.absolutePath)
+                                }
+                                else -> null
+                            }
+
+                            // If bitmap is successfully created
+                            bitmap?.let {
+                                // Resize the bitmap to a manageable size
+                                val resizedBitmap = resizeBitmap(it, 1024, 1024) // Adjust maxWidth and maxHeight as needed
+
+                                // Rotate the resized bitmap if required
+                                bitmap = rotateImageIfRequired(requireContext(), resizedBitmap, fileUri)
+                                Timber.e("Bitmap created and processed successfully")
+                            } ?: run {
+                                Timber.e("Failed to create bitmap: unsupported URI scheme")
+                                showToast(getString(R.string.someThing_went_wrong),1)
+                                return
+                            }
+
+                            // Handle image selection
+                            Timber.e("Image selected")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            showToast(getString(R.string.someThing_went_wrong),1)
+                            Timber.e("Error converting Uri to Bitmap: ${e.message}")
+                            return
+                        }
+
+                        binding.ivUserImg.setImageBitmap(bitmap)
+                        viewModel.request.user_picture = file
                     }
+
                 }
             }
         }
@@ -254,7 +536,8 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
             requestCode == Codes.GETTING_USER_LOCATION && data != null -> {
                 when {
                     data.hasExtra(Params.USER_LOCATION) -> {
-                        val locationItem = data.getParcelableExtra<UserLocation>(Params.USER_LOCATION)
+                        val locationItem =
+                            data.getParcelableExtra<UserLocation>(Params.USER_LOCATION)
                         when {
                             locationItem != null -> {
                                 viewModel.request.lat = locationItem.lat!!.toString()
@@ -265,17 +548,21 @@ class RegisterFragment : BaseAuthFragment(), Observer<Any?>
                     }
                 }
             }
+
             requestCode == Codes.DIALOG_VehicleType_CODE && data != null -> {
                 if (data.hasExtra(Params.DIALOG_CLICK_ACTION)) {
                     when {
                         data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
-                            if (data.getStringExtra("vehicleType")!!.isNotEmpty()){
-                                if (data.getStringExtra("vehicleType") == "car"){
-                                    binding.etVehicleType.text = MyApp.context.getString(R.string.car)
-                                }else if (data.getStringExtra("vehicleType") == "motorcycle"){
-                                    binding.etVehicleType.text = MyApp.context.getString(R.string.motorcycle)
-                                }else if (data.getStringExtra("vehicleType") == "bicycle"){
-                                    binding.etVehicleType.text = MyApp.context.getString(R.string.bicycle)
+                            if (data.getStringExtra("vehicleType")!!.isNotEmpty()) {
+                                if (data.getStringExtra("vehicleType") == "car") {
+                                    binding.etVehicleType.text =
+                                        MyApp.context.getString(R.string.car)
+                                } else if (data.getStringExtra("vehicleType") == "motorcycle") {
+                                    binding.etVehicleType.text =
+                                        MyApp.context.getString(R.string.motorcycle)
+                                } else if (data.getStringExtra("vehicleType") == "bicycle") {
+                                    binding.etVehicleType.text =
+                                        MyApp.context.getString(R.string.bicycle)
                                 }
                                 viewModel.request.vehicle_type = data.getStringExtra("vehicleType")
                             }

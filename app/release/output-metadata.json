@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
-      "versionName": "1.0.0",
-      "outputFile": "brandsinDriver_v_1.0.0-release.apk"
+      "versionCode": 7,
+      "versionName": "1.2-test",
+      "outputFile": "brandsinDriver_v_1.2-test-release.apk"
     }
   ],
   "elementType": "File"

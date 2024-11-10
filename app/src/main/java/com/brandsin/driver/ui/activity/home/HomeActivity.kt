@@ -73,8 +73,9 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initConnectivityManager()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        initConnectivityManager()
+
         //init view model
         initViewModel()
         binding.viewModel = viewModel
