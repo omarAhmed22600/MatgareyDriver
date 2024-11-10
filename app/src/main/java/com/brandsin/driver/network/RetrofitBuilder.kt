@@ -11,10 +11,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-//const val BASE_URL = "https://backend.elmaredegypt.com"
 
-//const val BASE_URL = "https://hagaty-app.com"
-const val BASE_URL = "https://backend.brandsin.net"
+const val BASE_URL = ""
 /*
 *add this if you want a static header in all requests
 **/

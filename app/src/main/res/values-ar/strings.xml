@@ -4,7 +4,7 @@
 
 <resources>
     <string name="app_name">BrandsIn Delivery</string>
-    <string name="google_maps_key">AIzaSyDWTbmhcokQYyU4PKjBLnzAZlac4hphs_I</string>
+    <string name="google_maps_key"></string>
     <string name="what_is_your_rate_for_BrandsIn">قيم تطبيقنا</string>
     <string name="permit_my_location">السماح بالوصول للموقع الجغرافي</string>
     <string name="permit_description">إذا حصلنا علي موقعك الجغرافي سوف نقوم بتوصيل كل ما تحتاجة بدقة اعلي</string>
